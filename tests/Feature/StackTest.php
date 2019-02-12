@@ -8,15 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StackTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+
     public function testEmpty()
     {
         $stack = [];
@@ -24,7 +16,7 @@ class StackTest extends TestCase
 
         return $stack;
     }
-
+    //Example 2.2 Using the @depends annotation to express dependencies
     /**
      * @depends testEmpty
      */
@@ -36,7 +28,6 @@ class StackTest extends TestCase
 
         return $stack;
     }
-
     /**
      * @depends testPush
      */
@@ -56,7 +47,7 @@ class StackTest extends TestCase
         $this->assertTrue(true);
         return 'second';
     }
-
+//Example 2.4 Test with multiple dependencies
     /**
      * @depends testProducerFirst
      * @depends testProducerSecond
@@ -65,5 +56,24 @@ class StackTest extends TestCase
     {
         $this->assertSame('first', $a);
         $this->assertSame('second', $b);
+    }
+
+    //Example 2.6 Using a data provider with named datasets
+    /**
+    * @dataProvider additionProvider
+    */
+    public function testAdd($a, $b, $expected)
+    {
+        $this->assertSame($expected, $a + $b);
+    }
+  
+    public function additionProvider()
+    {
+        return [
+            '0 mais 0'=>[0, 0, 0],
+            '0 mais 1'=>[0, 1, 1],
+            '1 mais 0'=>[1, 0, 1],
+            '1 mais 1'=>[1, 1, 3]
+        ];
     }
 }
